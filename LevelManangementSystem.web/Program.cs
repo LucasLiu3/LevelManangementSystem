@@ -1,4 +1,6 @@
+using System.Reflection;
 using LevelManangementSystem.web.Data;
+using LevelManangementSystem.web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,9 +12,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+//??????automapper??,?????????????
+//?????????profile?class??
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());   //??mapper
+builder.Services.AddScoped<ILeaveTypeService,LeaveTypeService>(); //??service
+
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
