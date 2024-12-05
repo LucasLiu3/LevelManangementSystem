@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Level Manangement System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/jqueryui/themes/base/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LevelManangementSystem.web.styles.css" asp-append-version="true" />
 </head>
@@ -25,9 +26,25 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a>
-                        </li>
+                        @if(User.IsInRole(Roles.Admin))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Management
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item text-dark" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a></li>
+                                    <li><a class="dropdown-item text-dark" asp-controller="Periods" asp-action="Index">Periods</a></li>
+                                    <li><a class="dropdown-item text-dark" asp-controller="LeaveAllocation" asp-action="Index">View Employees</a></li>
+                                    <li><a class="dropdown-item text-dark" asp-controller="LeaveRequest" asp-action="ListRequests">View Requests</a></li>
+                                </ul>
+                            </li>                  
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a class="nav-link text-light" asp-controller="LeaveAllocation" asp-action="Details">View Allocations</a></li>
+
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -47,6 +64,8 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

@@ -11,11 +11,12 @@ using AutoMapper;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Reflection.Metadata.Ecma335;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using LevelManangementSystem.web.Services;
 using System.Runtime.InteropServices;
+using LevelManangementSystem.web.Services.LeaveTypes;
 
 namespace LevelManangementSystem.web.Controllers
 {
+    [Authorize(Roles= Roles.Admin)]
     public class LeaveTypesController(ILeaveTypeService leaveTypeService) : Controller
     {
 

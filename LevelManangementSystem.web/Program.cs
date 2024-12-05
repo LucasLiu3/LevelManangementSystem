@@ -1,6 +1,9 @@
 using System.Reflection;
 using LevelManangementSystem.web.Data;
-using LevelManangementSystem.web.Services;
+using LevelManangementSystem.web.Services.LeaveAllocations;
+using LevelManangementSystem.web.Services.LeaveRequests;
+using LevelManangementSystem.web.Services.LeaveTypes;
+using LevelManangementSystem.web.Services.Periods;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,10 +17,18 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //??????automapper??,?????????????
 //?????????profile?class??
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());   //??mapper
-builder.Services.AddScoped<ILeaveTypeService,LeaveTypeService>(); //??service
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());   //add mapper
+builder.Services.AddScoped<ILeaveTypeService,LeaveTypeService>(); //add service
+builder.Services.AddScoped<ILeaveAllocationsService, LeaveAllocationsService>(); //add service
+builder.Services.AddScoped<ILeaveRequestService, LeaveRequestService>();
+builder.Services.AddScoped<IPeriodsService, PeriodsService>();
+//builder.Services.AddTransient<IEmailSender, EmailSender>(); //add email sender server
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddHttpContextAccessor();  
+
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
